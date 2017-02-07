@@ -4,11 +4,15 @@ import Header from './Header';
 import Inventory from './Inventory';
 import Order from './Order';
 
+import sampleFishes from '../sample-fishes';
+
 class App extends Component {
   constructor() {
     super();
 
-    this.addFish = this.addFish.bind(this); 
+    this.addFish = this.addFish.bind(this);
+    this.loadSamples = this.loadSamples.bind(this);
+
     this.state = {
       
       fishes: {
@@ -34,6 +38,13 @@ class App extends Component {
     // the namespacing is the same.
     this.setState({ fishes });
   }
+
+  loadSamples() {
+    this.setState({
+      fishes: sampleFishes
+    });
+  }
+
   render() {
     return (
       <div className="catch-of-the-day">
@@ -42,7 +53,9 @@ class App extends Component {
           <Header tagline='Fresh Seafood Market' />
         </div>
         <Order />
-        <Inventory addFish={this.addFish} />
+        <Inventory 
+         addFish={this.addFish}
+         loadSamples={this.loadSamples} />
       </div>
     );
   }
