@@ -29,10 +29,26 @@ class App extends Component {
       state: 'fishes'
     });
 
+    // Check for local storage item
+    const localStorageRef = localStorage.getItem(`order-${this.props.params.storeId}`);
+
+    if(localStorageRef) {
+      // Update our App component's order state
+      this.setState({
+        order: JSON.parse(localStorageRef)
+      });
+
+    }
   }
 
   componentWillUnmount() {
     base.removeBinding(this.ref);
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(nextState.order));
+    // console.log('Something Changed');
+    console.log({nextProps, nextState});
   }
 
   addFish(fish) {
@@ -80,7 +96,10 @@ class App extends Component {
               addToOrder={this.addToOrder} /> )}
           </ul>
         </div>
-        <Order fishes={this.state.fishes} order={this.state.order} />
+        <Order 
+         fishes={this.state.fishes}
+         order={this.state.order}
+         params={this.props.params} />
         <Inventory 
          addFish={this.addFish}
          loadSamples={this.loadSamples} />
